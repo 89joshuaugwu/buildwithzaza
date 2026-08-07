@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/* next-themes toggles a `.dark` class on <html> — this tells Tailwind v4
+   to treat that class (not prefers-color-scheme) as the dark variant. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* Raw palette — fixed values, not theme-aware. Used for things that should
+     stay the same regardless of light/dark, like the terminal card, which is
+     always dark ("CRT" look) on purpose. */
+  --color-ink: #0e1330;
+  --color-paper: #f6f7fb;
+  --color-navy: #1b2b6b;
+  --color-navy-light: #8c97de;
+  --color-gold: #f5a623;
+  --color-gold-deep: #c97f0e;
+  --color-gold-bright: #ffc257;
+  --color-ok: #35d07f;
+}
+
+/* Semantic tokens — these flip between :root and .dark, and are what
+   components should reach for by default (bg-bg, text-fg, border-border...). */
+:root {
+  --color-bg: var(--color-paper);
+  --color-fg: var(--color-ink);
+  --color-fg-muted: #4b5170;
+  --color-surface: #ffffff;
+  --color-border: #e3e5f0;
+  --color-brand: var(--color-navy);
+  --color-accent: var(--color-gold);
+  --color-accent-deep: var(--color-gold-deep);
+  --color-accent-fg: var(--color-ink);
+}
+
+.dark {
+  --color-bg: var(--color-ink);
+  --color-fg: #f4f5fa;
+  --color-fg-muted: #a9adc7;
+  --color-surface: #171c33;
+  --color-border: #2a2f4c;
+  --color-brand: var(--color-navy-light);
+  --color-accent: var(--color-gold);
+  --color-accent-deep: var(--color-gold-bright);
+  --color-accent-fg: var(--color-ink);
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-fg: var(--color-fg);
+  --color-fg-muted: var(--color-fg-muted);
+  --color-surface: var(--color-surface);
+  --color-border: var(--color-border);
+  --color-brand: var(--color-brand);
+  --color-accent: var(--color-accent);
+  --color-accent-deep: var(--color-accent-deep);
+  --color-accent-fg: var(--color-accent-fg);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+}
+
+/* Respect reduced-motion at the CSS level too, not just in component logic */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
