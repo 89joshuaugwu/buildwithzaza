@@ -8,10 +8,8 @@ import { Testimonials } from "@/components/testimonials";
 import { ContactCta } from "@/components/contact-cta";
 import { Footer } from "@/components/footer";
 
-// R3F needs a real browser/WebGL context, so this can't be server-rendered.
 const HeroScene = dynamic(
-  () => import("@/components/three/hero-scene").then((m) => m.HeroScene),
-  { ssr: false }
+  () => import("@/components/three/hero-scene").then((m) => m.HeroScene)
 );
 
 export default function Home() {
