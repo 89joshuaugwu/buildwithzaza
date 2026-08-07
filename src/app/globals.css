@@ -20,6 +20,17 @@
   --color-gold-deep: #c97f0e;
   --color-gold-bright: #ffc257;
   --color-ok: #35d07f;
+
+  --animate-marquee: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* Semantic tokens — these flip between :root and .dark, and are what
