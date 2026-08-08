@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { VENTURES } from "@/lib/data/projects";
+import type { Project } from "@/lib/data/projects";
 
-export function Ventures() {
+export function Ventures({ projects }: { projects: Project[] }) {
   return (
     <section className="border-y border-border bg-surface/50 py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -17,7 +17,7 @@ export function Ventures() {
         </p>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
-          {VENTURES.map((venture) => (
+          {projects.map((venture) => (
             <div
               key={venture.slug}
               className="relative overflow-hidden rounded-2xl bg-ink p-8 text-paper"

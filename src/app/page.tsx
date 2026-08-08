@@ -7,9 +7,23 @@ import { Testimonials } from "@/components/testimonials";
 import { ContactCta } from "@/components/contact-cta";
 import { Footer } from "@/components/footer";
 import { HeroSceneLoader } from "@/components/three/hero-scene-loader";
+import { getProjects } from "@/lib/data/get-projects";
 import { Download } from "lucide-react";
 
-export default function Home() {
+// Re-checks Firestore at most once a minute, so admin edits show up on the
+// live site without a redeploy — without hitting the database on every
+// single request either.
+export const revalidate = 60;
+
+export default async function Home() {
+  const projects = await getProjects();
+  const selectedWork = projects
+    .filter((p) => p.featured)
+    .sort((a, b) => a.order - b.order);
+  const ventures = projects
+    .filter((p) => p.ventureSpotlight)
+    .sort((a, b) => a.order - b.order);
+
   return (
     <>
       <main className="relative overflow-hidden">
@@ -59,8 +73,8 @@ export default function Home() {
       </main>
 
       <TechMarquee />
-      <SelectedWork />
-      <Ventures />
+      <SelectedWork projects={selectedWork} />
+      <Ventures projects={ventures} />
       <AboutPreview />
       <Testimonials />
       <ContactCta />

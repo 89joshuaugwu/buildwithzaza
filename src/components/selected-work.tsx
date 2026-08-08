@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { SELECTED_WORK } from "@/lib/data/projects";
+import type { Project } from "@/lib/data/projects";
 
 const CATEGORY_LABEL: Record<string, string> = {
   client: "Client work",
@@ -8,7 +8,7 @@ const CATEGORY_LABEL: Record<string, string> = {
   venture: "Venture",
 };
 
-export function SelectedWork() {
+export function SelectedWork({ projects }: { projects: Project[] }) {
   return (
     <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div className="flex items-end justify-between gap-4">
@@ -29,7 +29,7 @@ export function SelectedWork() {
       </div>
 
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {SELECTED_WORK.map((project) => (
+        {projects.map((project) => (
           <Link
             key={project.slug}
             href={`/projects/${project.slug}`}

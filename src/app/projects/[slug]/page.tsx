@@ -2,8 +2,15 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Github } from "lucide-react";
 import { PROJECTS } from "@/lib/data/projects";
+import { getProjectBySlug } from "@/lib/data/get-projects";
+
+export const revalidate = 60;
 
 export function generateStaticParams() {
+  // Static list only — safe at build time, no dependency on Firestore
+  // being reachable during `next build`. dynamicParams stays on by
+  // default, so slugs added later in Firestore still render fine on
+  // request, they just aren't pre-built.
   return PROJECTS.map((p) => ({ slug: p.slug }));
 }
 
@@ -13,7 +20,7 @@ export default async function ProjectDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = PROJECTS.find((p) => p.slug === slug);
+  const project = await getProjectBySlug(slug);
   if (!project) notFound();
 
   const categoryLabel =
