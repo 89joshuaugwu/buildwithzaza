@@ -30,11 +30,9 @@ export function SelectedWork() {
 
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {SELECTED_WORK.map((project) => (
-          <a
+          <Link
             key={project.slug}
-            href={project.liveUrl ?? "/projects"}
-            target={project.liveUrl ? "_blank" : undefined}
-            rel={project.liveUrl ? "noreferrer" : undefined}
+            href={`/projects/${project.slug}`}
             className="group [perspective:1000px]"
           >
             <div className="relative h-full overflow-hidden rounded-2xl border border-border bg-surface p-6 transition-transform duration-300 [transform-style:preserve-3d] group-hover:-translate-y-1 group-hover:[transform:rotateX(2deg)_rotateY(-2deg)]">
@@ -62,7 +60,7 @@ export function SelectedWork() {
                 ))}
               </div>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
 

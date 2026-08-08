@@ -7,14 +7,22 @@ export interface Project {
   category: ProjectCategory;
   stack: string[];
   liveUrl?: string;
+  repoUrl?: string;
+  images?: string[];
   featured: boolean;
   ventureSpotlight: boolean;
   order: number;
+  // Case-study fields — optional. The 6 flagship entries have them; the
+  // rest just show summary + stack until you decide they need more.
+  problem?: string;
+  approach?: string;
+  outcome?: string;
 }
 
-// Static seed for Phase 2 — same shape as the `projects` Firestore
-// collection (see docs/firestore-schema.md). Swapping this for a live
-// Firestore query later is a drop-in change, not a rewrite.
+// Static seed for Phase 2/3 — same shape as the `projects` Firestore
+// collection (see docs/firestore-schema.md and firestore.rules). Moving
+// this into Firestore for the admin dashboard later is a data migration,
+// not a rewrite.
 export const PROJECTS: Project[] = [
   {
     slug: "acadegrade-v2",
@@ -27,6 +35,12 @@ export const PROJECTS: Project[] = [
     featured: true,
     ventureSpotlight: false,
     order: 1,
+    problem:
+      "Nigerian students calculate CGPA by hand or in spreadsheets that don't match the real 5.0 grading scale, and get no early warning when a semester is drifting off target.",
+    approach:
+      "A multi-provider AI pipeline: Gemini reads uploaded result PDFs via OCR, Groq powers instant what-if simulations, DeepSeek handles forecasting and insights. Smart Firestore caching means switching tabs never re-triggers an API call.",
+    outcome:
+      "Submitted as a CSC 499 final year project and running as a real, live tool students use today — not a demo.",
   },
   {
     slug: "rollmark",
@@ -39,6 +53,12 @@ export const PROJECTS: Project[] = [
     featured: true,
     ventureSpotlight: false,
     order: 2,
+    problem:
+      "Attendance in large lecture halls is either slow manual roll call, or a QR code a student photographs and sends to a friend who isn't even on campus.",
+    approach:
+      "Codes rotate every 60 seconds and are tied to a geofenced session, so a screenshot is useless a minute later or from off-campus. Lecturers get a live dashboard per session.",
+    outcome:
+      "Live and in use, supervised by Dr. Ekene Ozioko, with a full technical documentation set most student projects skip entirely.",
   },
   {
     slug: "holy-spirit-chapel-esut",
@@ -51,6 +71,11 @@ export const PROJECTS: Project[] = [
     featured: true,
     ventureSpotlight: false,
     order: 3,
+    problem:
+      "The chapel and its student fellowship needed a real web presence — service info, giving, event sign-ups — not just a Facebook page, and staff with no technical background needed to be able to run it.",
+    approach:
+      "One Next.js platform, two visual identities (chapel blue/gold, fellowship crimson), a 34-route admin dashboard non-technical staff can actually use day to day, and Paystack wired in for giving.",
+    outcome: "Live, in production, and still maintained — my first paid client.",
   },
   {
     slug: "vulnai",
@@ -62,6 +87,12 @@ export const PROJECTS: Project[] = [
     featured: true,
     ventureSpotlight: false,
     order: 4,
+    problem:
+      "Freelance pentesters and small Nigerian security teams get raw scanner output, not something a client will actually sit down and read.",
+    approach:
+      "Scan output goes through Gemini and comes out as a structured, client-ready report, exportable to PDF. A Paystack-gated Pro tier covers the ongoing cost.",
+    outcome:
+      "Live, targeting freelance pentesters, fintech, and enterprise IT in the Nigerian market.",
   },
   {
     slug: "accompadi",
@@ -74,6 +105,10 @@ export const PROJECTS: Project[] = [
     featured: false,
     ventureSpotlight: true,
     order: 5,
+    problem:
+      "students hunting for off-campus housing in Nigeria rely on word-of-mouth and unverified agent listings — no trustworthy marketplace exists yet.",
+    outcome:
+      "live and actively growing — my main business focus right now, pitched to Founders Smith Accelerator for scaling.",
   },
   {
     slug: "reelnix",
@@ -86,6 +121,85 @@ export const PROJECTS: Project[] = [
     featured: false,
     ventureSpotlight: true,
     order: 6,
+    problem:
+      "content discovery for movies, series, and educational material in Nigeria is scattered across too many separate apps and sites.",
+    outcome:
+      "live, positioned as both entertainment and a learning hub, and being considered for further investment.",
+  },
+  {
+    slug: "inkognito",
+    title: "Inkognito",
+    summary:
+      "Anonymous messaging platform with 10 distinct message types and shareable, auto-generated message and profile cards.",
+    category: "product",
+    stack: ["Next.js", "Firebase", "Framer Motion"],
+    liveUrl: "https://inkog.vercel.app",
+    featured: false,
+    ventureSpotlight: false,
+    order: 7,
+  },
+  {
+    slug: "penwork4me",
+    title: "PenWork4Me",
+    summary:
+      "Niche freelance marketplace for document and writing services, connecting Nigerian clients with agents.",
+    category: "product",
+    stack: ["Next.js", "Firebase", "Cloudinary"],
+    liveUrl: "https://penwork4me.vercel.app",
+    featured: false,
+    ventureSpotlight: false,
+    order: 8,
+  },
+  {
+    slug: "donordrop",
+    title: "DonorDrop",
+    summary: "Mobile app connecting blood donors with requesters across Nigeria.",
+    category: "product",
+    stack: ["React Native", "Expo", "Firebase"],
+    featured: false,
+    ventureSpotlight: false,
+    order: 9,
+  },
+  {
+    slug: "votenaija",
+    title: "VoteNaija",
+    summary:
+      "Real-time polling platform with free and paid tiers and email-based anti-fraud duplicate-vote prevention.",
+    category: "product",
+    stack: ["Firebase", "Paystack", "Cloudinary"],
+    featured: false,
+    ventureSpotlight: false,
+    order: 10,
+  },
+  {
+    slug: "thinksync",
+    title: "ThinkSync",
+    summary: "Real-time collaborative whiteboard with built-in voice chat.",
+    category: "product",
+    stack: ["Next.js", "React Konva", "Agora.io"],
+    featured: false,
+    ventureSpotlight: false,
+    order: 11,
+  },
+  {
+    slug: "payrollpadi",
+    title: "PayrollPadi",
+    summary: "Payroll management application for handling employee payslips.",
+    category: "product",
+    stack: ["Next.js", "Firebase"],
+    featured: false,
+    ventureSpotlight: false,
+    order: 12,
+  },
+  {
+    slug: "gradebot",
+    title: "JoshuaZaza GradeBot",
+    summary: "Telegram bot for AI-assisted grading and assignment handling.",
+    category: "product",
+    stack: ["Telegram Bot API", "AI grading backend"],
+    featured: false,
+    ventureSpotlight: false,
+    order: 13,
   },
 ];
 
