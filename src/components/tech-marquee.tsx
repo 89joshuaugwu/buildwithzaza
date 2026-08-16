@@ -33,12 +33,14 @@ export function TechMarquee() {
   const items = [...STACK, ...STACK];
 
   return (
-    <div className="overflow-hidden border-y border-border bg-surface py-4">
+    <div
+      className="overflow-hidden border-y border-border bg-surface py-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
+    >
       <div className="flex w-max animate-marquee gap-10">
         {items.map((tech, i) => (
           <span
             key={`${tech.name}-${i}`}
-            className="flex items-center gap-2 whitespace-nowrap font-mono text-sm text-fg-muted"
+            className="flex items-center gap-2 whitespace-nowrap font-mono text-sm text-fg-muted transition-colors hover:text-brand"
           >
             {tech.Icon && <tech.Icon size={16} />}
             {tech.name}

@@ -22,7 +22,3 @@
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-
-
-buildwithzaza-firebase-adminsdk.json

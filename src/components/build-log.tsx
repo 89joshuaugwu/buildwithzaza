@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
+import { motion, useReducedMotion } from "motion/react";
 
 interface LogLine {
   cmd: string;
@@ -41,8 +42,14 @@ const FALLBACK_LOG: LogLine[] = [
   },
 ];
 
+const lineVariants = {
+  hidden: { opacity: 0, x: -8 },
+  show: { opacity: 1, x: 0 },
+};
+
 export function BuildLog() {
   const [lines, setLines] = useState<LogLine[]>(FALLBACK_LOG);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     async function load() {
@@ -62,7 +69,7 @@ export function BuildLog() {
   }, []);
 
   return (
-    <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl bg-ink shadow-2xl shadow-ink/30">
+    <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl bg-ink shadow-2xl shadow-ink/30 ring-1 ring-white/5">
       <div className="flex items-center gap-1.5 border-b border-white/10 bg-white/5 px-4 py-3">
         <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
         <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
@@ -71,9 +78,14 @@ export function BuildLog() {
           joshuazaza — deploy log
         </span>
       </div>
-      <div className="space-y-3 px-4 py-4 text-left font-mono text-[13px] leading-relaxed">
+      <motion.div
+        className="space-y-3 px-4 py-4 text-left font-mono text-[13px] leading-relaxed"
+        initial={reduceMotion ? undefined : "hidden"}
+        animate={reduceMotion ? undefined : "show"}
+        transition={{ staggerChildren: 0.14, delayChildren: 0.15 }}
+      >
         {lines.map((line) => (
-          <div key={line.cmd}>
+          <motion.div key={line.cmd} variants={lineVariants}>
             <p className="text-white/40">
               <span className="text-gold">$</span> {line.cmd}
             </p>
@@ -85,12 +97,12 @@ export function BuildLog() {
               </span>
               <span className="text-white/40"> · {line.detail}</span>
             </p>
-          </div>
+          </motion.div>
         ))}
         <p className="pl-1 text-white/30">
-          <span className="animate-pulse text-gold">▍</span>
+          <span className="animate-blink text-gold">▍</span>
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }
