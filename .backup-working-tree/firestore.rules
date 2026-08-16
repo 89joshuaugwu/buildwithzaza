@@ -1,0 +1,54 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Firestore denies everything by default — only what's explicitly
+    // allowed below is reachable. Nothing else needs its own "deny" rule.
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'joshuaugwu89@gmail.com';
+    }
+
+    // profile/main — powers the hero deploy log + about page.
+    // Public read, only you can write.
+    match /profile/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // projects — public read, only you can write.
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // testimonials — public read, only you can write. Add these yourself
+    // once you have a real quote; the site never shows a fabricated one.
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // messages — anyone can submit a contact/hire form (create), but this
+    // is your private inbox. Nobody but you can read, edit, or delete it.
+    match /messages/{messageId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // products — Phase 4. Public read once you're selling, only you write.
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // orders — Phase 4. Buyer info + payment refs — no client access at
+    // all. Written and read only by the Admin SDK, server-side, after a
+    // Paystack webhook verifies the payment.
+    match /orders/{orderId} {
+      allow read, write: if false;
+    }
+  }
+}
