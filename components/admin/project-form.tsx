@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { FirebaseError } from "firebase/app";
 import { useRouter } from "next/navigation";
 import { ImageUpload } from "./image-upload";
 import type { Project, ProjectCategory } from "@/lib/data/projects";
@@ -66,7 +67,7 @@ export function ProjectForm({
 
     setSaving(true);
     try {
-      await onSubmit({
+      const project = {
         slug: finalSlug,
         title: title.trim(),
         summary: summary.trim(),
@@ -84,8 +85,11 @@ export function ProjectForm({
         problem: problem.trim() || undefined,
         approach: approach.trim() || undefined,
         outcome: outcome.trim() || undefined,
-      });
-    } catch {
+      };
+      const cleanProject = Object.fromEntries(Object.entries(project).filter(([, value]) => value !== undefined)) as unknown as Project;
+      await onSubmit(cleanProject);
+    } catch (err) {
+      console.error("Project save failed", err);
       setError("Save failed — check your connection and try again.");
       setSaving(false);
     }
