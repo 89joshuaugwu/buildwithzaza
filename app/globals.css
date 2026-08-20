@@ -76,9 +76,8 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 .button-secondary:hover { transform: translateY(-2px); border-color: var(--color-brand); }
 .focus-ring:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 3px; }
 .card-shadow { box-shadow: var(--shadow-card); }
-.brand-wordmark { display: inline-flex; align-items: baseline; font-family: var(--font-display); font-size: 1.04rem; font-weight: 800; letter-spacing: -.075em; line-height: 1; }
-.brand-wordmark .brand-with { color: var(--color-fg-muted); font-weight: 650; letter-spacing: -.09em; }
-.brand-wordmark .brand-zaza { color: var(--color-brand); font-weight: 850; letter-spacing: -.1em; }
+.brand-wordmark { display: inline-flex; align-items: baseline; font-family: var(--font-display); font-size: 1.02rem; font-weight: 820; letter-spacing: -.055em; line-height: 1; color: var(--color-fg); }
+.brand-wordmark .brand-zaza { color: var(--color-brand); font-weight: 820; }
 @keyframes tech-flow { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .tech-track { animation: tech-flow 28s linear infinite; }
 .tech-track-reverse { animation-direction: reverse; animation-duration: 34s; }
