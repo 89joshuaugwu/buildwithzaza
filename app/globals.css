@@ -76,8 +76,12 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 .button-secondary:hover { transform: translateY(-2px); border-color: var(--color-brand); }
 .focus-ring:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 3px; }
 .card-shadow { box-shadow: var(--shadow-card); }
-.brand-wordmark { display: inline-flex; align-items: baseline; font-family: var(--font-display); font-size: 1.02rem; font-weight: 820; letter-spacing: -.055em; line-height: 1; color: var(--color-fg); }
-.brand-wordmark .brand-zaza { color: var(--color-brand); font-weight: 820; }
+.brand-wordmark { position: relative; display: inline-flex; align-items: baseline; font-family: var(--font-display); font-size: 1.04rem; font-weight: 820; letter-spacing: -.05em; line-height: 1; color: var(--color-fg); transition: transform .28s cubic-bezier(.16, 1, .3, 1), letter-spacing .28s ease; }
+.brand-wordmark::after { content: ""; position: absolute; bottom: -.34rem; left: 0; height: 2px; width: 100%; transform: scaleX(.38); transform-origin: left; border-radius: 999px; background: linear-gradient(90deg, var(--color-brand), var(--color-highlight)); opacity: .7; transition: transform .3s cubic-bezier(.16, 1, .3, 1), opacity .3s ease; }
+.brand-wordmark .brand-zaza { display: inline-block; background: linear-gradient(110deg, var(--color-brand) 18%, #9e98ff 45%, var(--color-brand) 70%); background-size: 220% 100%; background-clip: text; -webkit-background-clip: text; color: transparent; font-weight: 850; animation: brand-shimmer 4.5s ease-in-out infinite; }
+a:hover .brand-wordmark { transform: translateY(-1px); letter-spacing: -.042em; }
+a:hover .brand-wordmark::after { transform: scaleX(1); opacity: 1; }
+@keyframes brand-shimmer { 0%, 100% { background-position: 100% 50%; } 50% { background-position: 0% 50%; } }
 @keyframes tech-flow { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .tech-track { animation: tech-flow 28s linear infinite; }
 .tech-track-reverse { animation-direction: reverse; animation-duration: 34s; }
