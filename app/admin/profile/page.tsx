@@ -118,7 +118,7 @@ export default function AdminProfilePage() {
           </div>
           <div className="mt-4 grid gap-5 rounded-xl bg-surface-raised p-4 sm:grid-cols-[160px_1fr_1fr] sm:items-center">
             <div className="flex justify-center"><span className="grid h-20 w-20 overflow-hidden bg-fg p-1" style={{ borderRadius: `${faviconRadius}px` }}>{faviconUrl ? <img src={faviconUrl} alt="Favicon preview" className="h-full w-full object-cover" style={{ transform: `scale(${faviconScale / 100})` }} /> : <span className="grid h-full w-full place-items-center text-xs font-bold text-bg">JZ</span>}</span></div>
-            <label className="text-sm font-semibold text-fg">Favicon size <span className="float-right font-mono text-xs text-fg-muted">{faviconScale}%</span><input type="range" min="60" max="140" value={faviconScale} onChange={(e) => setFaviconScale(Number(e.target.value))} className="mt-3 w-full accent-[var(--color-brand)]" /></label>
+            <label className="text-sm font-semibold text-fg">Favicon crop / zoom <span className="float-right font-mono text-xs text-fg-muted">{faviconScale}%</span><input type="range" min="60" max="140" value={faviconScale} onChange={(e) => setFaviconScale(Number(e.target.value))} className="mt-3 w-full accent-[var(--color-brand)]" /></label>
             <label className="text-sm font-semibold text-fg">Favicon roundness <span className="float-right font-mono text-xs text-fg-muted">{faviconRadius}px</span><input type="range" min="0" max="64" value={faviconRadius} onChange={(e) => setFaviconRadius(Number(e.target.value))} className="mt-3 w-full accent-[var(--color-brand)]" /></label>
           </div>
         </section>
