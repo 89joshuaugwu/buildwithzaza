@@ -13,5 +13,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const brand = await getBrandAssets();
-  return <html lang="en" suppressHydrationWarning><body className="bg-bg text-fg antialiased"><ThemeProvider attribute="class" defaultTheme="system" enableSystem><Nav logoUrl={brand.logoUrl} />{children}</ThemeProvider></body></html>;
+  return <html lang="en" suppressHydrationWarning><body className="bg-bg text-fg antialiased"><ThemeProvider attribute="class" defaultTheme="system" enableSystem><Nav logoUrl={brand.logoUrl} logoScale={brand.logoScale} logoRadius={brand.logoRadius} />{children}</ThemeProvider></body></html>;
 }

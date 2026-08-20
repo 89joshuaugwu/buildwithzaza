@@ -16,6 +16,7 @@ const CATEGORY_LABEL: Record<ProjectCategory, string> = {
   client: "Client work",
   product: "Own build",
   venture: "Venture",
+  collaboration: "Collaboration",
 };
 
 export function ProjectsGrid({ projects }: { projects: Project[] }) {

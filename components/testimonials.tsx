@@ -9,6 +9,7 @@ interface Testimonial {
   name: string;
   role?: string;
   quote: string;
+  avatarUrl?: string;
 }
 
 // Renders nothing until there's real testimonial data in Firestore — no
@@ -55,13 +56,9 @@ export function Testimonials() {
             <blockquote className="text-sm text-fg">
               &ldquo;{t.quote}&rdquo;
             </blockquote>
-            <figcaption className="mt-4 text-sm font-semibold text-fg">
-              {t.name}
-              {t.role && (
-                <span className="block font-normal text-fg-muted">
-                  {t.role}
-                </span>
-              )}
+            <figcaption className="mt-5 flex items-center gap-3 text-sm font-semibold text-fg">
+              {t.avatarUrl ? <img src={t.avatarUrl} alt="" className="h-9 w-9 rounded-full object-cover" /> : <span className="grid h-9 w-9 place-items-center rounded-full bg-surface-raised font-mono text-xs text-fg-muted">{t.name.slice(0, 1)}</span>}
+              <span>{t.name}{t.role && <span className="mt-0.5 block font-normal text-fg-muted">{t.role}</span>}</span>
             </figcaption>
           </figure>
         ))}

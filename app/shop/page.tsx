@@ -5,12 +5,14 @@ import Script from "next/script";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import { CheckCircle2, Download } from "lucide-react";
+import { Footer } from "@/components/footer";
 
 interface Product {
   id: string;
   title: string;
   description: string;
   price: number;
+  previewImages?: string[];
 }
 
 export default function ShopPage() {
@@ -90,16 +92,14 @@ export default function ShopPage() {
   }
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div className="site-grain"><main className="page-glow mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <Script src="https://js.paystack.co/v1/inline.js" strategy="lazyOnload" />
 
-      <p className="font-mono text-xs uppercase tracking-widest text-gold">
-        Shop
-      </p>
-      <h1 className="mt-2 font-display text-4xl font-bold text-fg sm:text-5xl">
-        Templates &amp; starter kits
+      <p className="eyebrow">Digital products</p>
+      <h1 className="mt-6 font-display text-5xl font-bold tracking-[-.07em] text-fg sm:text-6xl">
+        Source code you can build on.
       </h1>
-      <p className="mt-3 max-w-xl text-fg-muted">
+      <p className="mt-6 max-w-xl text-lg leading-8 text-fg-muted">
         Production-ready code from projects I&apos;ve actually shipped —
         download it, open it, build on it.
       </p>
@@ -120,13 +120,14 @@ export default function ShopPage() {
       )}
 
       {products.length > 0 && (
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <div
               key={product.id}
-              className="flex flex-col rounded-2xl border border-border bg-surface p-6"
+              className="group flex overflow-hidden rounded-[1.4rem] border border-border bg-surface p-3 card-shadow transition hover:-translate-y-1 hover:border-brand"
             >
-              <h2 className="font-display text-lg font-bold text-fg">
+              {product.previewImages?.[0] ? <img src={product.previewImages[0]} alt={`${product.title} preview`} className="aspect-[16/10] w-full rounded-xl object-cover" /> : <div className="grid aspect-[16/10] place-items-center rounded-xl bg-surface-raised font-mono text-xs uppercase tracking-[.15em] text-fg-muted">Source kit</div>}
+              <div className="flex flex-1 flex-col p-3 pb-2 pt-5"><h2 className="font-display text-xl font-bold tracking-[-.04em] text-fg">
                 {product.title}
               </h2>
               <p className="mt-2 flex-1 text-sm text-fg-muted">
@@ -139,11 +140,11 @@ export default function ShopPage() {
                 <button
                   type="button"
                   onClick={() => startCheckout(product)}
-                  className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-fg transition-transform hover:scale-[1.03]"
+                  className="button-primary min-h-10 px-4"
                 >
                   Buy now
                 </button>
-              </div>
+              </div></div>
             </div>
           ))}
         </div>
@@ -160,7 +161,9 @@ export default function ShopPage() {
                 </h3>
                 <a
                   href={downloadUrl}
-                  className="mt-4 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-fg"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-4 inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-accent-fg"
                 >
                   <Download size={16} /> Download {activeProduct.title}
                 </a>
@@ -211,6 +214,6 @@ export default function ShopPage() {
           </div>
         </div>
       )}
-    </main>
+    </main><Footer /></div>
   );
 }

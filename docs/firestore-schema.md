@@ -15,7 +15,7 @@
 | Field | Type | Notes |
 |---|---|---|
 | title, slug, summary | string | |
-| category | string | `client` \| `venture` \| `academic` |
+| category | string | `client` \| `product` \| `venture` \| `collaboration` |
 | stack | string[] | |
 | images | string[] | Cloudinary URLs |
 | liveUrl, repoUrl | string | |

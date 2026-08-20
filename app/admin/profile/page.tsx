@@ -19,6 +19,8 @@ export default function AdminProfilePage() {
   const [resumeUrl, setResumeUrl] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
   const [faviconUrl, setFaviconUrl] = useState("");
+  const [logoScale, setLogoScale] = useState(100);
+  const [logoRadius, setLogoRadius] = useState(10);
   const [buildLog, setBuildLog] = useState<BuildLogLine[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -34,6 +36,8 @@ export default function AdminProfilePage() {
         setResumeUrl(data.resumeUrl ?? "");
         setLogoUrl(data.logoUrl ?? "");
         setFaviconUrl(data.faviconUrl ?? "");
+        setLogoScale(data.logoScale ?? 100);
+        setLogoRadius(data.logoRadius ?? 10);
         setBuildLog(data.buildLog ?? []);
       }
       setLoading(false);
@@ -68,6 +72,8 @@ export default function AdminProfilePage() {
           resumeUrl,
           logoUrl,
           faviconUrl,
+          logoScale,
+          logoRadius,
           buildLog,
         },
         { merge: true }
@@ -95,6 +101,11 @@ export default function AdminProfilePage() {
           <div className="mt-5 grid gap-6 sm:grid-cols-2">
             <ImageUpload urls={logoUrl ? [logoUrl] : []} onChange={(urls) => setLogoUrl(urls[0] ?? "")} multiple={false} label="Website logo" />
             <ImageUpload urls={faviconUrl ? [faviconUrl] : []} onChange={(urls) => setFaviconUrl(urls[0] ?? "")} multiple={false} label="Favicon (square PNG recommended)" />
+          </div>
+          <div className="mt-6 grid gap-5 rounded-xl bg-surface-raised p-4 sm:grid-cols-[160px_1fr_1fr] sm:items-center">
+            <div className="flex justify-center"><span className="grid h-20 w-20 overflow-hidden bg-fg p-1" style={{ borderRadius: `${logoRadius}px` }}>{logoUrl ? <img src={logoUrl} alt="Logo preview" className="h-full w-full object-contain" style={{ transform: `scale(${logoScale / 100})` }} /> : <span className="grid h-full w-full place-items-center text-xs font-bold text-bg">JZ</span>}</span></div>
+            <label className="text-sm font-semibold text-fg">Logo size <span className="float-right font-mono text-xs text-fg-muted">{logoScale}%</span><input type="range" min="60" max="140" value={logoScale} onChange={(e) => setLogoScale(Number(e.target.value))} className="mt-3 w-full accent-[var(--color-brand)]" /></label>
+            <label className="text-sm font-semibold text-fg">Corner roundness <span className="float-right font-mono text-xs text-fg-muted">{logoRadius}px</span><input type="range" min="0" max="28" value={logoRadius} onChange={(e) => setLogoRadius(Number(e.target.value))} className="mt-3 w-full accent-[var(--color-brand)]" /></label>
           </div>
         </section>
         <div>

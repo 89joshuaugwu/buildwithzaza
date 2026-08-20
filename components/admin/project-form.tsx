@@ -146,6 +146,7 @@ export function ProjectForm({
             <option value="product">Own build</option>
             <option value="client">Client work</option>
             <option value="venture">Venture</option>
+            <option value="collaboration">Collaboration</option>
           </select>
         </div>
         <div>

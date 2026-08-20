@@ -12,6 +12,8 @@ export function ProjectCover({ project, index = 0, large = false }: { project: P
   const [base, bright] = PALETTES[index % PALETTES.length];
   const initials = project.title.split(" ").map((word) => word[0]).slice(0, 2).join("");
   return <div className={`relative overflow-hidden rounded-[1.15rem] ${large ? "aspect-[16/8]" : "aspect-[16/10]"}`} style={{ background: `linear-gradient(135deg, ${base}, #121722 75%)` }}>
+    {project.images?.[0] && <img src={project.images[0]} alt={`${project.title} preview`} className="absolute inset-0 h-full w-full object-cover" />}
+    {project.images?.[0] && <div className="absolute inset-0 bg-[#10131d]/45" />}
     <div className="absolute inset-0 opacity-25" style={{ backgroundImage: "radial-gradient(white 1px, transparent 1px)", backgroundSize: "18px 18px" }} />
     <motion.div animate={reduceMotion ? undefined : { x: [0, 18, 0], y: [0, -12, 0], rotate: [0, 4, 0] }} transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-[12%] -top-[30%] h-[78%] w-[58%] rounded-full blur-2xl" style={{ background: bright, opacity: .62 }} />
     <motion.div animate={reduceMotion ? undefined : { y: [0, 8, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} className="absolute bottom-[12%] left-[10%] right-[10%] rounded-xl border border-white/25 bg-[#11141d]/80 p-3 shadow-2xl backdrop-blur-md sm:p-4">

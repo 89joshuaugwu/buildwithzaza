@@ -1,4 +1,4 @@
-export type ProjectCategory = "client" | "product" | "venture";
+export type ProjectCategory = "client" | "product" | "venture" | "collaboration";
 
 export interface Project {
   slug: string;
