@@ -14,6 +14,7 @@ interface Product {
   description: string;
   price: number;
   previewImages?: string[];
+  published?: boolean;
 }
 
 export default function ShopPage() {
@@ -29,7 +30,7 @@ export default function ShopPage() {
     async function load() {
       try {
         const snap = await getDocs(collection(db, "products"));
-        setProducts(snap.docs.map((d) => ({ id: d.id, ...d.data() }) as Product));
+        setProducts(snap.docs.map((d) => ({ id: d.id, ...d.data() }) as Product).filter((product) => product.published !== false));
       } catch {
         // Firestore not configured yet, or rules not published — fail quiet.
       } finally {

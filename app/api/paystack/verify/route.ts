@@ -39,6 +39,10 @@ export async function POST(req: NextRequest) {
     }
     const product = productSnap.data();
 
+    if (product?.published === false) {
+      return NextResponse.json({ error: "This product is not currently available" }, { status: 404 });
+    }
+
     // Guard against a tampered amount — what was actually paid (in kobo)
     // must match the product's real price, not whatever the client sent.
     if (!product || amount !== Math.round(product.price * 100)) {

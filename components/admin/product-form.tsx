@@ -12,6 +12,7 @@ export interface ProductData {
   previewImages: string[];
   fileUrl: string;
   fileName?: string;
+  published: boolean;
 }
 
 interface ProductFormProps {
@@ -30,6 +31,7 @@ export function ProductForm({ initial, onSubmit, onDelete }: ProductFormProps) {
   );
   const [fileUrl, setFileUrl] = useState(initial?.fileUrl ?? "");
   const [fileName, setFileName] = useState(initial?.fileName ?? "");
+  const [published, setPublished] = useState(initial?.published ?? true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -49,6 +51,7 @@ export function ProductForm({ initial, onSubmit, onDelete }: ProductFormProps) {
         previewImages,
         fileUrl,
         fileName,
+        published,
       });
     } catch {
       setError("Save failed — try again.");
@@ -104,6 +107,11 @@ export function ProductForm({ initial, onSubmit, onDelete }: ProductFormProps) {
         onChange={(url, name) => { setFileUrl(url); setFileName(name ?? ""); }}
         label="Deliverable file (what buyers download)"
       />
+
+      <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-surface-raised p-4">
+        <input type="checkbox" checked={published} onChange={(e) => setPublished(e.target.checked)} className="mt-0.5 h-4 w-4 rounded accent-[var(--color-brand)]" />
+        <span><span className="block text-sm font-semibold text-fg">Show this product in the public shop</span><span className="mt-1 block text-xs leading-5 text-fg-muted">Turn this off to keep the product saved as a private draft. Unpublished products cannot be purchased.</span></span>
+      </label>
 
       {error && <p className="text-sm text-red-500">{error}</p>}
 
