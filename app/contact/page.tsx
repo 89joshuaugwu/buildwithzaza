@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import { CheckCircle2, Clock, Mail } from "lucide-react";
+import { Footer } from "@/components/footer";
 
 export default function ContactPage() {
   const [name, setName] = useState("");
@@ -65,14 +66,12 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="mx-auto max-w-xl px-4 py-16 sm:px-6">
-      <p className="font-mono text-xs uppercase tracking-widest text-gold">
-        Contact
-      </p>
-      <h1 className="mt-2 font-display text-4xl font-bold text-fg">
-        Let&apos;s work together
+    <div className="site-grain"><main className="page-glow mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:py-28">
+      <p className="eyebrow">Contact</p>
+      <h1 className="mt-6 font-display text-5xl font-bold leading-[.9] tracking-[-.07em] sm:text-6xl">
+        Let&apos;s make something useful.
       </h1>
-      <p className="mt-3 text-fg-muted">
+      <p className="mt-6 max-w-xl text-lg leading-8 text-fg-muted">
         Have a project, a question, or an idea in mind? Send a message and
         I&apos;ll get back to you.
       </p>
@@ -89,7 +88,7 @@ export default function ContactPage() {
         </span>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+      <form onSubmit={handleSubmit} className="mt-10 rounded-[1.5rem] border border-border bg-surface p-5 card-shadow sm:p-7 space-y-5">
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label className="block text-sm font-semibold text-fg">
@@ -151,6 +150,6 @@ export default function ContactPage() {
           {submitting ? "Sending..." : "Send message"}
         </button>
       </form>
-    </main>
+    </main><Footer /></div>
   );
 }

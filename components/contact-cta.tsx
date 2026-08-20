@@ -1,32 +1,4 @@
 import Link from "next/link";
-import { ScrollReveal } from "@/components/scroll-reveal";
-
-export function ContactCta() {
-  return (
-    <section className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6">
-      <ScrollReveal>
-        <h2 className="font-display text-3xl font-bold text-fg sm:text-4xl">
-          Got something to build?
-        </h2>
-        <p className="mt-3 text-fg-muted">
-          Freelance work, an internship, or just want to talk about AccomPadi
-          or ReelNix — pick whichever fits.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link
-            href="/hire"
-            className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-fg transition-transform hover:scale-[1.03]"
-          >
-            Hire me
-          </Link>
-          <Link
-            href="/contact"
-            className="rounded-full border border-border px-6 py-3 text-sm font-semibold text-fg transition-colors hover:border-accent"
-          >
-            General contact
-          </Link>
-        </div>
-      </ScrollReveal>
-    </section>
-  );
-}
+import { ArrowUpRight } from "lucide-react";
+import { ScrollReveal } from "./scroll-reveal";
+export function ContactCta() { return <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8"><ScrollReveal><div className="overflow-hidden rounded-[1.75rem] bg-fg px-6 py-12 text-bg sm:px-12 sm:py-16"><p className="font-mono text-[.68rem] font-bold uppercase tracking-[.15em] text-accent">A focused collaboration</p><div className="mt-5 grid gap-8 lg:grid-cols-[1.1fr_.9fr] lg:items-end"><h2 className="max-w-2xl font-display text-4xl font-bold leading-[.92] tracking-[-.065em] sm:text-6xl">Need a product partner who can take it all the way to launch?</h2><div><p className="max-w-md leading-7 text-bg/65">For client platforms, product prototypes, and systems that need clarity as much as code.</p><div className="mt-7 flex flex-wrap gap-3"><Link href="/hire" className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-bold text-accent-fg hover:bg-white">Start a project <ArrowUpRight size={16}/></Link><Link href="/contact" className="inline-flex items-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-bg hover:border-white/50">Send a message</Link></div></div></div></div></ScrollReveal></section>; }

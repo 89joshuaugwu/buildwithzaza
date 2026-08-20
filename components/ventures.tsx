@@ -1,66 +1,7 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/lib/data/projects";
-import { ScrollReveal, RevealItem } from "@/components/scroll-reveal";
+import { ProjectCover } from "./project-cover";
+import { ScrollReveal } from "./scroll-reveal";
 
-export function Ventures({ projects }: { projects: Project[] }) {
-  return (
-    <section className="border-y border-border bg-surface/50 py-20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <ScrollReveal>
-          <span className="log-eyebrow">ventures --status=growing</span>
-          <h2 className="mt-3 font-display text-3xl font-bold text-fg sm:text-4xl">
-            What I&apos;m building to grow on its own.
-          </h2>
-          <p className="mt-3 max-w-xl text-fg-muted">
-            Not client work — these are mine. Open to partners, early users,
-            and investors.
-          </p>
-        </ScrollReveal>
-
-        <ScrollReveal stagger className="mt-10 grid gap-6 md:grid-cols-2">
-          {projects.map((venture) => (
-            <RevealItem key={venture.slug}>
-              <div className="relative h-full overflow-hidden rounded-2xl bg-ink p-8 text-paper">
-                <div
-                  className="pointer-events-none absolute inset-0 bg-dot-grid opacity-[0.06]"
-                  aria-hidden="true"
-                  style={{ ["--grid-dot" as string]: "rgba(245,166,35,0.9)" }}
-                />
-                <div
-                  className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gold/10"
-                  aria-hidden="true"
-                />
-                <div className="relative">
-                  <h3 className="font-display text-2xl font-bold">
-                    {venture.title}
-                  </h3>
-                  <p className="mt-3 max-w-sm text-sm text-white/70">
-                    {venture.summary}
-                  </p>
-                  <div className="mt-6 flex flex-wrap items-center gap-3">
-                    {venture.liveUrl && (
-                      <a
-                        href={venture.liveUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-white/90 transition-colors hover:border-white/50"
-                      >
-                        View live
-                      </a>
-                    )}
-                    <Link
-                      href="/hire"
-                      className="rounded-full bg-gold px-4 py-2 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
-                    >
-                      Let&apos;s talk
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </RevealItem>
-          ))}
-        </ScrollReveal>
-      </div>
-    </section>
-  );
-}
+export function Ventures({ projects }: { projects: Project[] }) { return <section className="border-y border-border bg-surface/55"><div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8"><ScrollReveal><div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr]"><div><p className="eyebrow">Ventures</p><h2 className="mt-5 font-display text-4xl font-bold leading-[.94] tracking-[-.065em] sm:text-5xl">I&apos;m not only available for hire. I&apos;m in the arena too.</h2></div><p className="max-w-xl self-end text-base leading-7 text-fg-muted">These are the products I&apos;m building for their own future — focused on real, everyday friction in Nigeria. I&apos;m open to early users, thoughtful partners, and conversations that move them forward.</p></div></ScrollReveal><div className="mt-12 grid gap-6 md:grid-cols-2">{projects.map((venture, index) => <article key={venture.slug} className="overflow-hidden rounded-[1.45rem] border border-border bg-bg p-3"><ProjectCover project={venture} index={index + 4}/><div className="p-3 pt-6"><p className="font-mono text-[.65rem] font-bold uppercase tracking-[.14em] text-brand">Building independently</p><h3 className="mt-2 font-display text-3xl font-bold tracking-[-.055em]">{venture.title}</h3><p className="mt-3 text-sm leading-7 text-fg-muted">{venture.summary}</p><div className="mt-6 flex flex-wrap gap-3">{venture.liveUrl && <a href={venture.liveUrl} target="_blank" rel="noreferrer" className="button-secondary">Visit venture <ArrowUpRight size={15}/></a>}<Link href={`/projects/${venture.slug}`} className="button-primary">The story</Link></div></div></article>)}</div></div></section>; }

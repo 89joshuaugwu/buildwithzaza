@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import { CheckCircle2 } from "lucide-react";
+import { Footer } from "@/components/footer";
 
 type ProjectType = "web" | "mobile" | "ai" | "other";
 type ContactPref = "whatsapp" | "email" | "phone";
@@ -95,18 +96,16 @@ export default function HirePage() {
   }
 
   return (
-    <main className="mx-auto max-w-xl px-4 py-16 sm:px-6">
-      <p className="font-mono text-xs uppercase tracking-widest text-gold">
-        Let&apos;s work together
-      </p>
-      <h1 className="mt-2 font-display text-4xl font-bold text-fg">
-        Send a request
+    <div className="site-grain"><main className="page-glow mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:py-28">
+      <p className="eyebrow">New project</p>
+      <h1 className="mt-6 font-display text-5xl font-bold leading-[.9] tracking-[-.07em] sm:text-6xl">
+        Tell me what needs to work better.
       </h1>
-      <p className="mt-3 text-fg-muted">
+      <p className="mt-6 max-w-xl text-lg leading-8 text-fg-muted">
         Tell me about your project and how I can help.
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+      <form onSubmit={handleSubmit} className="mt-10 rounded-[1.5rem] border border-border bg-surface p-5 card-shadow sm:p-7 space-y-5">
         <div>
           <label className="block text-sm font-semibold text-fg">
             What do you want me to build?
@@ -239,6 +238,6 @@ export default function HirePage() {
           {submitting ? "Sending..." : "Send request"}
         </button>
       </form>
-    </main>
+    </main><Footer /></div>
   );
 }

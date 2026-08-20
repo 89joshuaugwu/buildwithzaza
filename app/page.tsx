@@ -1,93 +1,26 @@
-import { BuildLog } from "@/components/build-log";
-import { TechMarquee } from "@/components/tech-marquee";
+import Link from "next/link";
+import { ArrowDownRight, ArrowUpRight, Download, MapPin } from "lucide-react";
 import { SelectedWork } from "@/components/selected-work";
 import { Ventures } from "@/components/ventures";
-import { AboutPreview } from "@/components/about-preview";
 import { Testimonials } from "@/components/testimonials";
 import { ContactCta } from "@/components/contact-cta";
 import { Footer } from "@/components/footer";
-import { HeroSceneLoader } from "@/components/three/hero-scene-loader";
 import { getProjects } from "@/lib/data/get-projects";
-import { Download } from "lucide-react";
 
-// Re-checks Firestore at most once a minute, so admin edits show up on the
-// live site without a redeploy — without hitting the database on every
-// single request either.
 export const revalidate = 60;
 
 export default async function Home() {
   const projects = await getProjects();
-  const selectedWork = projects
-    .filter((p) => p.featured)
-    .sort((a, b) => a.order - b.order);
-  const ventures = projects
-    .filter((p) => p.ventureSpotlight)
-    .sort((a, b) => a.order - b.order);
-
-  return (
-    <>
-      <main className="relative overflow-hidden bg-dot-grid">
-        {/* Fades the dot-grid texture out toward the bottom of the hero so
-            it reads as atmosphere, not a repeating pattern with a hard edge. */}
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-bg/40 via-bg/85 to-bg"
-          aria-hidden="true"
-        />
-        <HeroSceneLoader />
-        <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-4 pb-16 pt-14 text-center sm:px-6 md:flex-row md:gap-10 md:py-24 md:text-left">
-          <div className="flex-1">
-            <span className="log-eyebrow">
-              status: shipping · Enugu, NG
-            </span>
-            <h1 className="mt-5 font-display text-5xl font-bold leading-[1.02] tracking-tight text-fg sm:text-6xl lg:text-7xl">
-              I ship production
-              <br />
-              software for{" "}
-              <span className="text-brand">Nigerian</span> problems.
-            </h1>
-            <p className="mt-6 max-w-xl text-base text-fg-muted sm:text-lg">
-              9+ live apps — client work, AI-assisted tools, and a couple of
-              things I&apos;m building to grow on their own. AcadeGrade,
-              RollMark, AccomPadi, and more.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:justify-start">
-              <a
-                href="/hire"
-                className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-fg transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                Hire me
-              </a>
-              <a
-                href="/projects"
-                className="rounded-full border border-border px-6 py-3 text-sm font-semibold text-fg transition-colors hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                See the work
-              </a>
-              <a
-                href="/resume.pdf"
-                download
-                aria-label="Download resume"
-                title="Download resume"
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border text-fg transition-colors hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                <Download size={18} />
-              </a>
-            </div>
-          </div>
-
-          <div className="flex-1">
-            <BuildLog />
-          </div>
-        </div>
-      </main>
-
-      <TechMarquee />
-      <SelectedWork projects={selectedWork} />
-      <Ventures projects={ventures} />
-      <AboutPreview />
-      <Testimonials />
-      <ContactCta />
-      <Footer />
-    </>
-  );
+  const selectedWork = projects.filter((project) => project.featured).sort((a, b) => a.order - b.order);
+  const ventures = projects.filter((project) => project.ventureSpotlight).sort((a, b) => a.order - b.order);
+  return <div className="site-grain overflow-hidden">
+    <main className="page-glow relative border-b border-border">
+      <div className="mx-auto grid min-h-[calc(100svh-4.7rem)] max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.2fr_.8fr] lg:px-8 lg:py-20">
+        <div><p className="eyebrow"><MapPin size={12} /> Enugu, Nigeria · Available for select work</p><h1 className="mt-7 max-w-4xl font-display text-5xl font-bold leading-[.89] tracking-[-.075em] sm:text-7xl lg:text-8xl">I turn messy ideas into <span className="text-brand">useful digital products.</span></h1><p className="mt-7 max-w-xl text-base leading-7 text-fg-muted sm:text-lg">I&apos;m Joshua Ugwu, a product-minded software engineer building platforms people can actually use — from student tools and SaaS products to client systems with real operations behind them.</p><div className="mt-9 flex flex-wrap gap-3"><Link href="/projects" className="button-primary">Explore my work <ArrowUpRight size={17} /></Link><Link href="/hire" className="button-secondary">Start a project</Link><a href="/resume.pdf" download className="focus-ring grid h-12 w-12 place-items-center rounded-xl border border-border bg-surface text-fg hover:border-brand" aria-label="Download resume"><Download size={18} /></a></div></div>
+        <div className="relative mx-auto w-full max-w-md lg:max-w-none"><div className="absolute -inset-8 rounded-full bg-brand/15 blur-3xl" /><div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-surface p-5 card-shadow sm:p-7"><div className="flex items-center justify-between"><span className="font-mono text-[.65rem] font-semibold uppercase tracking-[.15em] text-fg-muted">Builder&apos;s dashboard</span><span className="rounded-full bg-[#38bc80]/15 px-2.5 py-1 font-mono text-[.62rem] font-semibold text-[#21865a] dark:text-[#6bd3b0]">LIVE</span></div><p className="mt-8 font-display text-4xl font-bold tracking-[-.07em]">13<span className="text-brand">+</span></p><p className="mt-1 text-sm text-fg-muted">products and platforms built</p><div className="mt-8 grid grid-cols-2 gap-3"><div className="rounded-2xl bg-surface-raised p-4"><p className="font-mono text-xs text-fg-muted">Focus</p><p className="mt-3 font-display text-xl font-bold tracking-[-.04em]">Product<br />engineering</p></div><div className="rounded-2xl bg-fg p-4 text-bg"><p className="font-mono text-xs text-bg/55">Right now</p><p className="mt-3 font-display text-xl font-bold tracking-[-.04em]">Building for<br />Nigeria</p></div></div><div className="mt-4 rounded-2xl border border-border p-4"><div className="flex items-center gap-3"><span className="grid h-9 w-9 place-items-center rounded-xl bg-accent text-sm font-bold text-accent-fg">01</span><div><p className="text-sm font-bold">From problem to production</p><p className="text-xs text-fg-muted">Strategy · Design · Engineering</p></div><ArrowDownRight className="ml-auto text-brand" size={18} /></div></div></div></div>
+      </div>
+    </main>
+    <section className="border-b border-border bg-surface"><div className="mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:grid-cols-3 sm:px-6 lg:px-8"><p className="text-sm font-semibold text-fg-muted"><span className="mr-2 font-display text-2xl font-bold text-fg">09+</span>live apps and platforms</p><p className="text-sm font-semibold text-fg-muted"><span className="mr-2 font-display text-2xl font-bold text-fg">01</span>paid client platform, maintained</p><p className="text-sm font-semibold text-fg-muted"><span className="mr-2 font-display text-2xl font-bold text-fg">02</span>ventures actively growing</p></div></section>
+    <SelectedWork projects={selectedWork} /><Ventures projects={ventures} /><Testimonials /><ContactCta /><Footer />
+  </div>;
 }
