@@ -76,6 +76,10 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 .button-secondary:hover { transform: translateY(-2px); border-color: var(--color-brand); }
 .focus-ring:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 3px; }
 .card-shadow { box-shadow: var(--shadow-card); }
+@keyframes tech-flow { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.tech-track { animation: tech-flow 28s linear infinite; }
+.tech-track-reverse { animation-direction: reverse; animation-duration: 34s; }
+.tech-track:hover { animation-play-state: paused; }
 
 /* The hero has three equally important actions. Keep them on one purposeful
    row on narrow phones instead of dropping the resume action below. */

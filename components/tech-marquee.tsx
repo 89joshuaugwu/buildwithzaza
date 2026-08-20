@@ -1,52 +1,9 @@
-import {
-  SiNextdotjs,
-  SiTypescript,
-  SiFirebase,
-  SiCloudinary,
-  SiTailwindcss,
-  SiPython,
-  SiDjango,
-} from "react-icons/si";
+import { SiCloudinary, SiFirebase, SiNextdotjs, SiPython, SiReact, SiTailwindcss, SiTypescript } from "react-icons/si";
 import type { IconType } from "react-icons";
 
-interface StackItem {
-  name: string;
-  Icon?: IconType;
-}
-
-// Paystack has no entry in react-icons/Simple Icons (smaller regional
-// brand, most general icon sets don't carry it) — shown as text only.
-// Drop in a custom SVG from Paystack's brand kit later if you want a logo
-// here too.
-const STACK: StackItem[] = [
-  { name: "Next.js", Icon: SiNextdotjs },
-  { name: "TypeScript", Icon: SiTypescript },
-  { name: "Firebase", Icon: SiFirebase },
-  { name: "Cloudinary", Icon: SiCloudinary },
-  { name: "Tailwind CSS", Icon: SiTailwindcss },
-  { name: "Paystack" },
-  { name: "Python", Icon: SiPython },
-  { name: "Django", Icon: SiDjango },
+const STACK: { name: string; Icon: IconType }[] = [
+  { name: "Next.js", Icon: SiNextdotjs }, { name: "TypeScript", Icon: SiTypescript }, { name: "Firebase", Icon: SiFirebase }, { name: "React", Icon: SiReact }, { name: "Cloudinary", Icon: SiCloudinary }, { name: "Tailwind CSS", Icon: SiTailwindcss }, { name: "Python", Icon: SiPython },
 ];
 
-export function TechMarquee() {
-  const items = [...STACK, ...STACK];
-
-  return (
-    <div
-      className="overflow-hidden border-y border-border bg-surface py-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
-    >
-      <div className="flex w-max animate-marquee gap-10">
-        {items.map((tech, i) => (
-          <span
-            key={`${tech.name}-${i}`}
-            className="flex items-center gap-2 whitespace-nowrap font-mono text-sm text-fg-muted transition-colors hover:text-brand"
-          >
-            {tech.Icon && <tech.Icon size={16} />}
-            {tech.name}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
+function Track({ reverse = false }: { reverse?: boolean }) { const items = [...STACK, ...STACK]; return <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"><div className={`tech-track flex w-max gap-3 ${reverse ? "tech-track-reverse" : ""}`}>{items.map(({ name, Icon }, index) => <span key={`${name}-${index}`} className="flex h-10 items-center gap-2 rounded-xl border border-border bg-surface px-3.5 font-mono text-xs font-semibold text-fg-muted shadow-sm"><Icon className="text-brand" size={15} />{name}</span>)}</div></div>; }
+export function TechMarquee() { return <section aria-label="Technology stack" className="border-b border-border bg-surface/55 py-5"><div className="space-y-3"><Track /><Track reverse /></div></section>; }
