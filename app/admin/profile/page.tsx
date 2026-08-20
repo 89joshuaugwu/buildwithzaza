@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import { FileUpload } from "@/components/admin/file-upload";
+import { ImageUpload } from "@/components/admin/image-upload";
 import { CheckCircle2, Plus, X } from "lucide-react";
 
 interface BuildLogLine {
@@ -16,6 +17,8 @@ export default function AdminProfilePage() {
   const [bio, setBio] = useState("");
   const [currentlyBuilding, setCurrentlyBuilding] = useState("");
   const [resumeUrl, setResumeUrl] = useState("");
+  const [logoUrl, setLogoUrl] = useState("");
+  const [faviconUrl, setFaviconUrl] = useState("");
   const [buildLog, setBuildLog] = useState<BuildLogLine[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -29,6 +32,8 @@ export default function AdminProfilePage() {
         setBio(data.bio ?? "");
         setCurrentlyBuilding(data.currentlyBuilding ?? "");
         setResumeUrl(data.resumeUrl ?? "");
+        setLogoUrl(data.logoUrl ?? "");
+        setFaviconUrl(data.faviconUrl ?? "");
         setBuildLog(data.buildLog ?? []);
       }
       setLoading(false);
@@ -61,6 +66,8 @@ export default function AdminProfilePage() {
           bio: bio.trim(),
           currentlyBuilding: currentlyBuilding.trim(),
           resumeUrl,
+          logoUrl,
+          faviconUrl,
           buildLog,
         },
         { merge: true }
@@ -74,13 +81,22 @@ export default function AdminProfilePage() {
   if (loading) return <p className="text-fg-muted">Loading…</p>;
 
   return (
-    <div className="max-w-2xl">
-      <h1 className="font-display text-2xl font-bold text-fg">Profile</h1>
-      <p className="mt-1 text-sm text-fg-muted">
-        Powers the hero deploy log and (later) the About page.
+    <div className="max-w-3xl">
+      <p className="eyebrow">Site settings</p>
+      <h1 className="mt-4 font-display text-4xl font-bold tracking-[-.06em] text-fg">Profile &amp; brand</h1>
+      <p className="mt-2 text-sm text-fg-muted">
+        Manage the site identity and the content used throughout your portfolio.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+        <section className="rounded-2xl border border-border bg-surface p-5 sm:p-6">
+          <h2 className="font-display text-xl font-bold text-fg">Brand assets</h2>
+          <p className="mt-1 text-sm text-fg-muted">These update the public navigation logo and browser tab icon after deployment/cache refresh.</p>
+          <div className="mt-5 grid gap-6 sm:grid-cols-2">
+            <ImageUpload urls={logoUrl ? [logoUrl] : []} onChange={(urls) => setLogoUrl(urls[0] ?? "")} multiple={false} label="Website logo" />
+            <ImageUpload urls={faviconUrl ? [faviconUrl] : []} onChange={(urls) => setFaviconUrl(urls[0] ?? "")} multiple={false} label="Favicon (square PNG recommended)" />
+          </div>
+        </section>
         <div>
           <label className="block text-sm font-semibold text-fg">Bio</label>
           <textarea

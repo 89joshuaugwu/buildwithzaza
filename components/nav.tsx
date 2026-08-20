@@ -14,7 +14,7 @@ const LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function Nav() {
+export function Nav({ logoUrl }: { logoUrl?: string }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -32,7 +32,7 @@ export function Nav() {
     <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "border-b border-border bg-bg/85 backdrop-blur-xl" : "bg-bg/65 backdrop-blur-md"}`}>
       <div className="mx-auto flex h-[4.7rem] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="focus-ring group flex items-center gap-2 font-display text-base font-bold tracking-[-0.04em] text-fg">
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-fg text-xs text-bg transition-transform group-hover:rotate-6">JZ</span>
+          {logoUrl ? <img src={logoUrl} alt="Joshua Ugwu" className="h-7 w-7 rounded-lg object-contain" /> : <span className="grid h-7 w-7 place-items-center rounded-lg bg-fg text-xs text-bg transition-transform group-hover:rotate-6">JZ</span>}
           buildwith<span className="text-brand">zaza</span>
         </Link>
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary navigation">

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { collection, getCountFromServer, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
-import { FolderKanban, Mail, Quote, ShoppingBag } from "lucide-react";
+import { ArrowUpRight, FolderKanban, Mail, Quote, Settings2, ShoppingBag } from "lucide-react";
 
 export default function AdminOverviewPage() {
   const [counts, setCounts] = useState({
@@ -46,8 +46,15 @@ export default function AdminOverviewPage() {
   ];
 
   return (
-    <div>
-      <h1 className="font-display text-2xl font-bold text-fg">Overview</h1>
+    <div className="mx-auto max-w-6xl">
+      <p className="eyebrow">Admin workspace</p>
+      <div className="mt-4 flex flex-wrap items-end justify-between gap-5">
+        <div>
+          <h1 className="font-display text-4xl font-bold tracking-[-.06em] text-fg">Your portfolio, in motion.</h1>
+          <p className="mt-2 text-sm text-fg-muted">Keep the public site current without touching code.</p>
+        </div>
+        <Link href="/admin/profile" className="button-secondary min-h-10"><Settings2 size={15} /> Site settings</Link>
+      </div>
       {counts.projects === 0 && (
         <p className="mt-2 text-sm text-fg-muted">
           Projects showing 0 here just means Firestore hasn&apos;t been seeded
@@ -59,24 +66,29 @@ export default function AdminOverviewPage() {
           ).
         </p>
       )}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c) => {
           const Icon = c.icon;
           return (
             <Link
               key={c.label}
               href={c.href}
-              className="rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-accent"
+              className="group rounded-2xl border border-border bg-surface p-5 card-shadow transition hover:-translate-y-1 hover:border-brand"
             >
-              <Icon size={20} className="text-gold" />
-              <p className="mt-3 font-display text-2xl font-bold text-fg">
+              <Icon size={20} className="text-brand" />
+              <p className="mt-7 font-display text-4xl font-bold tracking-[-.06em] text-fg">
                 {c.value}
               </p>
-              <p className="text-sm text-fg-muted">{c.label}</p>
+              <div className="mt-1 flex items-center justify-between"><p className="text-sm text-fg-muted">{c.label}</p><ArrowUpRight size={16} className="text-fg-muted group-hover:text-brand" /></div>
             </Link>
           );
         })}
       </div>
+      <section className="mt-10 rounded-2xl border border-border bg-surface p-6">
+        <p className="font-display text-xl font-bold text-fg">Quick start</p>
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-fg-muted">Add your website logo and favicon in Site settings, then keep your projects, messages, and proof of work fresh from this workspace.</p>
+        <Link href="/admin/profile" className="mt-5 inline-flex items-center text-sm font-bold text-brand hover:underline">Set up brand assets <ArrowUpRight className="ml-1" size={15} /></Link>
+      </section>
     </div>
   );
 }
