@@ -11,6 +11,7 @@ export interface ProductData {
   price: number;
   previewImages: string[];
   fileUrl: string;
+  fileName?: string;
 }
 
 interface ProductFormProps {
@@ -28,6 +29,7 @@ export function ProductForm({ initial, onSubmit, onDelete }: ProductFormProps) {
     initial?.previewImages ?? []
   );
   const [fileUrl, setFileUrl] = useState(initial?.fileUrl ?? "");
+  const [fileName, setFileName] = useState(initial?.fileName ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -46,6 +48,7 @@ export function ProductForm({ initial, onSubmit, onDelete }: ProductFormProps) {
         price: Number(price),
         previewImages,
         fileUrl,
+        fileName,
       });
     } catch {
       setError("Save failed — try again.");
@@ -97,7 +100,8 @@ export function ProductForm({ initial, onSubmit, onDelete }: ProductFormProps) {
 
       <FileUpload
         url={fileUrl}
-        onChange={setFileUrl}
+        fileName={fileName}
+        onChange={(url, name) => { setFileUrl(url); setFileName(name ?? ""); }}
         label="Deliverable file (what buyers download)"
       />
 

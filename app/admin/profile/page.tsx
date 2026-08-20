@@ -17,6 +17,7 @@ export default function AdminProfilePage() {
   const [bio, setBio] = useState("");
   const [currentlyBuilding, setCurrentlyBuilding] = useState("");
   const [resumeUrl, setResumeUrl] = useState("");
+  const [resumeName, setResumeName] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
   const [faviconUrl, setFaviconUrl] = useState("");
   const [logoScale, setLogoScale] = useState(100);
@@ -34,6 +35,7 @@ export default function AdminProfilePage() {
         setBio(data.bio ?? "");
         setCurrentlyBuilding(data.currentlyBuilding ?? "");
         setResumeUrl(data.resumeUrl ?? "");
+        setResumeName(data.resumeName ?? "");
         setLogoUrl(data.logoUrl ?? "");
         setFaviconUrl(data.faviconUrl ?? "");
         setLogoScale(data.logoScale ?? 100);
@@ -70,6 +72,7 @@ export default function AdminProfilePage() {
           bio: bio.trim(),
           currentlyBuilding: currentlyBuilding.trim(),
           resumeUrl,
+          resumeName,
           logoUrl,
           faviconUrl,
           logoScale,
@@ -133,7 +136,8 @@ export default function AdminProfilePage() {
 
         <FileUpload
           url={resumeUrl}
-          onChange={setResumeUrl}
+          fileName={resumeName}
+          onChange={(url, name) => { setResumeUrl(url); setResumeName(name ?? ""); }}
           label="Resume (PDF)"
           accept="application/pdf"
         />

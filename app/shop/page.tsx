@@ -120,27 +120,27 @@ export default function ShopPage() {
       )}
 
       {products.length > 0 && (
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <div
               key={product.id}
-              className="group flex overflow-hidden rounded-[1.4rem] border border-border bg-surface p-3 card-shadow transition hover:-translate-y-1 hover:border-brand"
+              className="group flex min-w-0 flex-col overflow-hidden rounded-[1.4rem] border border-border bg-surface p-3 card-shadow transition hover:-translate-y-1 hover:border-brand"
             >
-              {product.previewImages?.[0] ? <img src={product.previewImages[0]} alt={`${product.title} preview`} className="aspect-[16/10] w-full rounded-xl object-cover" /> : <div className="grid aspect-[16/10] place-items-center rounded-xl bg-surface-raised font-mono text-xs uppercase tracking-[.15em] text-fg-muted">Source kit</div>}
+              {product.previewImages?.[0] ? <img src={product.previewImages[0]} alt={`${product.title} preview`} className="aspect-[16/10] w-full rounded-xl bg-surface-raised object-cover object-top" /> : <div className="grid aspect-[16/10] place-items-center rounded-xl bg-surface-raised font-mono text-xs uppercase tracking-[.15em] text-fg-muted">Source kit</div>}
               <div className="flex flex-1 flex-col p-3 pb-2 pt-5"><h2 className="font-display text-xl font-bold tracking-[-.04em] text-fg">
                 {product.title}
               </h2>
               <p className="mt-2 flex-1 text-sm text-fg-muted">
                 {product.description}
               </p>
-              <div className="mt-4 flex items-center justify-between">
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
                 <span className="font-mono text-lg font-bold text-fg">
                   ₦{product.price.toLocaleString()}
                 </span>
                 <button
                   type="button"
                   onClick={() => startCheckout(product)}
-                  className="button-primary min-h-10 px-4"
+                  className="button-primary min-h-10 w-full px-4 sm:w-auto"
                 >
                   Buy now
                 </button>

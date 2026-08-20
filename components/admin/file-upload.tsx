@@ -6,12 +6,13 @@ import { Loader2, FileText, X } from "lucide-react";
 
 interface FileUploadProps {
   url: string;
-  onChange: (url: string) => void;
+  onChange: (url: string, fileName?: string) => void;
+  fileName?: string;
   label?: string;
   accept?: string;
 }
 
-export function FileUpload({ url, onChange, label = "File", accept }: FileUploadProps) {
+export function FileUpload({ url, onChange, fileName, label = "File", accept }: FileUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
@@ -22,7 +23,7 @@ export function FileUpload({ url, onChange, label = "File", accept }: FileUpload
     setError("");
     try {
       const result = await uploadToCloudinary(file);
-      onChange(result.url);
+      onChange(result.url, result.fileName);
     } catch {
       setError("Upload failed. Try again.");
     } finally {
@@ -37,7 +38,7 @@ export function FileUpload({ url, onChange, label = "File", accept }: FileUpload
         <div className="mt-2 flex items-center justify-between rounded-xl border border-border bg-bg px-4 py-3">
           <span className="flex min-w-0 items-center gap-2 truncate text-sm text-fg">
             <FileText size={16} className="shrink-0" />
-            <span className="truncate">{url.split("/").pop()}</span>
+            <span className="truncate">{fileName || url.split("/").pop()}</span>
           </span>
           <button
             type="button"
