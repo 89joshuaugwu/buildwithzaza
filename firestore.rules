@@ -50,5 +50,9 @@ service cloud.firestore {
     match /orders/{orderId} {
       allow read, write: if false;
     }
+
+    // Server-only private access-code hashes and temporary checkout grants.
+    match /productAccess/{productId} { allow read, write: if false; }
+    match /productAccessGrants/{grantId} { allow read, write: if false; }
   }
 }

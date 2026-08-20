@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
+import { auth, db } from "@/lib/firebase/client";
 import { ProductForm, type ProductData } from "@/components/admin/product-form";
 
 export default function EditProductPage() {
@@ -22,7 +22,10 @@ export default function EditProductPage() {
   }, [params.id]);
 
   async function handleSubmit(updated: ProductData) {
-    await updateDoc(doc(db, "products", params.id), { ...updated });
+    const { accessCode, ...product } = updated;
+    if (product.restricted && accessCode === "" && !data?.restricted) throw new Error("An access code is required for restricted products.");
+    await updateDoc(doc(db, "products", params.id), product);
+    if (accessCode || product.restricted !== data?.restricted) await fetch("/api/product-access/admin", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${await auth.currentUser?.getIdToken()}` }, body: JSON.stringify({ productId: params.id, accessCode, restricted: product.restricted }) });
     router.push("/admin/products");
   }
 

@@ -15,6 +15,7 @@ interface Product {
   price: number;
   previewImages?: string[];
   published?: boolean;
+  restricted?: boolean;
 }
 
 export default function ShopPage() {
@@ -25,6 +26,9 @@ export default function ShopPage() {
   const [verifying, setVerifying] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [accessCode, setAccessCode] = useState("");
+  const [accessGrant, setAccessGrant] = useState("");
+  const [checkingAccess, setCheckingAccess] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -45,7 +49,11 @@ export default function ShopPage() {
     setDownloadUrl(null);
     setBuyerEmail("");
     setError("");
+    setAccessCode("");
+    setAccessGrant("");
   }
+
+  async function verifyAccess() { if (!activeProduct || !accessCode.trim()) { setError("Enter the access code you received."); return; } setCheckingAccess(true); setError(""); try { const response = await fetch("/api/product-access/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ productId: activeProduct.id, code: accessCode }) }); const data = await response.json(); if (!response.ok) throw new Error(data.error); setAccessGrant(data.grant); } catch (err) { setError(err instanceof Error ? err.message : "Could not verify access."); } finally { setCheckingAccess(false); } }
 
   function pay() {
     if (!activeProduct || !buyerEmail.trim()) {
@@ -62,7 +70,7 @@ export default function ShopPage() {
       email: buyerEmail.trim(),
       amount: Math.round(activeProduct.price * 100),
       currency: "NGN",
-      metadata: { productId: activeProduct.id },
+      metadata: { productId: activeProduct.id, accessGrant: accessGrant || null },
       callback: (response) => {
         verify(response.reference);
       },
@@ -185,7 +193,7 @@ export default function ShopPage() {
                 <p className="mt-1 font-mono text-sm text-fg-muted">
                   ₦{activeProduct.price.toLocaleString()}
                 </p>
-                <label className="mt-4 block text-sm font-semibold text-fg">
+                {activeProduct.restricted && !accessGrant ? <><p className="mt-4 rounded-xl bg-surface-raised p-3 text-sm text-fg-muted">This product is restricted. Enter the private code you received to unlock checkout.</p><label className="mt-4 block text-sm font-semibold text-fg">Access code</label><input type="password" value={accessCode} onChange={(e) => setAccessCode(e.target.value)} placeholder="Enter your code" className="mt-2 w-full rounded-xl border border-border bg-bg px-4 py-3 text-sm text-fg outline-none focus:border-accent" />{error && <p className="mt-2 text-sm text-red-500">{error}</p>}<button type="button" onClick={verifyAccess} disabled={checkingAccess} className="button-primary mt-4 w-full">{checkingAccess ? "Verifying..." : "Verify access"}</button></> : <><label className="mt-4 block text-sm font-semibold text-fg">
                   Your email
                 </label>
                 <input
@@ -204,6 +212,7 @@ export default function ShopPage() {
                 >
                   {verifying ? "Verifying..." : "Pay now"}
                 </button>
+                </>}
                 <button
                   type="button"
                   onClick={() => setActiveProduct(null)}

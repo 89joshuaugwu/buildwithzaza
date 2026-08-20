@@ -13,6 +13,8 @@ export interface ProductData {
   fileUrl: string;
   fileName?: string;
   published: boolean;
+  restricted: boolean;
+  accessCode?: string;
 }
 
 interface ProductFormProps {
@@ -32,6 +34,8 @@ export function ProductForm({ initial, onSubmit, onDelete }: ProductFormProps) {
   const [fileUrl, setFileUrl] = useState(initial?.fileUrl ?? "");
   const [fileName, setFileName] = useState(initial?.fileName ?? "");
   const [published, setPublished] = useState(initial?.published ?? true);
+  const [restricted, setRestricted] = useState(initial?.restricted ?? false);
+  const [accessCode, setAccessCode] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -52,6 +56,8 @@ export function ProductForm({ initial, onSubmit, onDelete }: ProductFormProps) {
         fileUrl,
         fileName,
         published,
+        restricted,
+        accessCode: accessCode.trim() || undefined,
       });
     } catch {
       setError("Save failed — try again.");
@@ -112,6 +118,10 @@ export function ProductForm({ initial, onSubmit, onDelete }: ProductFormProps) {
         <input type="checkbox" checked={published} onChange={(e) => setPublished(e.target.checked)} className="mt-0.5 h-4 w-4 rounded accent-[var(--color-brand)]" />
         <span><span className="block text-sm font-semibold text-fg">Show this product in the public shop</span><span className="mt-1 block text-xs leading-5 text-fg-muted">Turn this off to keep the product saved as a private draft. Unpublished products cannot be purchased.</span></span>
       </label>
+      <div className="rounded-xl border border-border bg-surface p-4">
+        <label className="flex cursor-pointer items-start gap-3"><input type="checkbox" checked={restricted} onChange={(e) => setRestricted(e.target.checked)} className="mt-0.5 h-4 w-4 rounded accent-[var(--color-brand)]" /><span><span className="block text-sm font-semibold text-fg">Restricted product access</span><span className="mt-1 block text-xs leading-5 text-fg-muted">Only people with your private access code can begin checkout.</span></span></label>
+        {restricted && <div className="mt-4"><label className="block text-sm font-semibold text-fg">Access code {initial?.restricted && <span className="font-normal text-fg-muted">(leave blank to keep the current code)</span>}</label><input type="password" value={accessCode} onChange={(e) => setAccessCode(e.target.value)} placeholder="Create a private code" className="mt-2 w-full rounded-xl border border-border bg-bg px-4 py-3 text-sm text-fg outline-none focus:border-brand" />{!initial?.restricted && !accessCode && <p className="mt-2 text-xs text-red-500">A code is required for a restricted product.</p>}</div>}
+      </div>
 
       {error && <p className="text-sm text-red-500">{error}</p>}
 

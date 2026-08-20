@@ -1,0 +1,5 @@
+import { createHmac, randomUUID } from "crypto";
+import { NextRequest, NextResponse } from "next/server";
+import { adminDb } from "@/lib/firebase/admin";
+const hash = (code: string) => createHmac("sha256", process.env.PRODUCT_ACCESS_SECRET!).update(code).digest("hex");
+export async function POST(req: NextRequest) { try { if (!process.env.PRODUCT_ACCESS_SECRET) return NextResponse.json({ error: "Access control is not configured" }, { status: 500 }); const { productId, code } = await req.json(); const access = await adminDb.collection("productAccess").doc(productId).get(); if (!access.exists || hash(String(code)) !== access.data()?.codeHash) return NextResponse.json({ error: "That access code is not valid." }, { status: 403 }); const grant = randomUUID(); await adminDb.collection("productAccessGrants").doc(grant).set({ productId, expiresAt: Date.now() + 15 * 60 * 1000 }); return NextResponse.json({ grant }); } catch { return NextResponse.json({ error: "Could not verify access code" }, { status: 500 }); } }

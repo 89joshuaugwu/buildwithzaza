@@ -42,6 +42,12 @@ export async function POST(req: NextRequest) {
     if (product?.published === false) {
       return NextResponse.json({ error: "This product is not currently available" }, { status: 404 });
     }
+    if (product?.restricted) {
+      const grant = metadata?.accessGrant;
+      const grantSnap = grant && await adminDb.collection("productAccessGrants").doc(grant).get();
+      if (!grantSnap?.exists || grantSnap.data()?.productId !== productId || grantSnap.data()?.expiresAt < Date.now()) return NextResponse.json({ error: "Restricted-product access was not verified" }, { status: 403 });
+      await grantSnap.ref.delete();
+    }
 
     // Guard against a tampered amount — what was actually paid (in kobo)
     // must match the product's real price, not whatever the client sent.
