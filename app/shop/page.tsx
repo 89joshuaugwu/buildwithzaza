@@ -6,6 +6,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import { CheckCircle2, Download } from "lucide-react";
 import { Footer } from "@/components/footer";
+import { MediaCarousel } from "@/components/media-carousel";
 
 interface Product {
   id: string;
@@ -126,11 +127,11 @@ export default function ShopPage() {
               key={product.id}
               className="group flex min-w-0 flex-col overflow-hidden rounded-[1.4rem] border border-border bg-surface p-3 card-shadow transition hover:-translate-y-1 hover:border-brand"
             >
-              {product.previewImages?.[0] ? <img src={product.previewImages[0]} alt={`${product.title} preview`} className="aspect-[16/10] w-full rounded-xl bg-surface-raised object-cover object-top" /> : <div className="grid aspect-[16/10] place-items-center rounded-xl bg-surface-raised font-mono text-xs uppercase tracking-[.15em] text-fg-muted">Source kit</div>}
+              {product.previewImages?.length ? <MediaCarousel images={product.previewImages} title={product.title} className="aspect-[16/10] w-full rounded-xl bg-surface-raised" /> : <div className="grid aspect-[16/10] place-items-center rounded-xl bg-surface-raised font-mono text-xs uppercase tracking-[.15em] text-fg-muted">Source kit</div>}
               <div className="flex flex-1 flex-col p-3 pb-2 pt-5"><h2 className="font-display text-xl font-bold tracking-[-.04em] text-fg">
                 {product.title}
               </h2>
-              <p className="mt-2 flex-1 text-sm text-fg-muted">
+              <p className="mt-2 flex-1 text-justify text-sm leading-6 text-fg-muted">
                 {product.description}
               </p>
               <div className="mt-5 flex flex-wrap items-center justify-between gap-3">

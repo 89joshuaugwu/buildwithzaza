@@ -22,6 +22,8 @@ export default function AdminProfilePage() {
   const [faviconUrl, setFaviconUrl] = useState("");
   const [logoScale, setLogoScale] = useState(100);
   const [logoRadius, setLogoRadius] = useState(10);
+  const [faviconScale, setFaviconScale] = useState(100);
+  const [faviconRadius, setFaviconRadius] = useState(16);
   const [buildLog, setBuildLog] = useState<BuildLogLine[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -40,6 +42,8 @@ export default function AdminProfilePage() {
         setFaviconUrl(data.faviconUrl ?? "");
         setLogoScale(data.logoScale ?? 100);
         setLogoRadius(data.logoRadius ?? 10);
+        setFaviconScale(data.faviconScale ?? 100);
+        setFaviconRadius(data.faviconRadius ?? 16);
         setBuildLog(data.buildLog ?? []);
       }
       setLoading(false);
@@ -77,6 +81,8 @@ export default function AdminProfilePage() {
           faviconUrl,
           logoScale,
           logoRadius,
+          faviconScale,
+          faviconRadius,
           buildLog,
         },
         { merge: true }
@@ -109,6 +115,11 @@ export default function AdminProfilePage() {
             <div className="flex justify-center"><span className="grid h-20 w-20 overflow-hidden bg-fg p-1" style={{ borderRadius: `${logoRadius}px` }}>{logoUrl ? <img src={logoUrl} alt="Logo preview" className="h-full w-full object-contain" style={{ transform: `scale(${logoScale / 100})` }} /> : <span className="grid h-full w-full place-items-center text-xs font-bold text-bg">JZ</span>}</span></div>
             <label className="text-sm font-semibold text-fg">Logo size <span className="float-right font-mono text-xs text-fg-muted">{logoScale}%</span><input type="range" min="60" max="140" value={logoScale} onChange={(e) => setLogoScale(Number(e.target.value))} className="mt-3 w-full accent-[var(--color-brand)]" /></label>
             <label className="text-sm font-semibold text-fg">Corner roundness <span className="float-right font-mono text-xs text-fg-muted">{logoRadius}px</span><input type="range" min="0" max="28" value={logoRadius} onChange={(e) => setLogoRadius(Number(e.target.value))} className="mt-3 w-full accent-[var(--color-brand)]" /></label>
+          </div>
+          <div className="mt-4 grid gap-5 rounded-xl bg-surface-raised p-4 sm:grid-cols-[160px_1fr_1fr] sm:items-center">
+            <div className="flex justify-center"><span className="grid h-20 w-20 overflow-hidden bg-fg p-1" style={{ borderRadius: `${faviconRadius}px` }}>{faviconUrl ? <img src={faviconUrl} alt="Favicon preview" className="h-full w-full object-cover" style={{ transform: `scale(${faviconScale / 100})` }} /> : <span className="grid h-full w-full place-items-center text-xs font-bold text-bg">JZ</span>}</span></div>
+            <label className="text-sm font-semibold text-fg">Favicon size <span className="float-right font-mono text-xs text-fg-muted">{faviconScale}%</span><input type="range" min="60" max="140" value={faviconScale} onChange={(e) => setFaviconScale(Number(e.target.value))} className="mt-3 w-full accent-[var(--color-brand)]" /></label>
+            <label className="text-sm font-semibold text-fg">Favicon roundness <span className="float-right font-mono text-xs text-fg-muted">{faviconRadius}px</span><input type="range" min="0" max="64" value={faviconRadius} onChange={(e) => setFaviconRadius(Number(e.target.value))} className="mt-3 w-full accent-[var(--color-brand)]" /></label>
           </div>
         </section>
         <div>

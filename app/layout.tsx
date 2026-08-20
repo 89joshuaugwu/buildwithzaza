@@ -8,7 +8,9 @@ export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   const brand = await getBrandAssets();
-  return { title: "buildwithzaza | Joshua Ugwu — Product engineer, Enugu NG", description: "Joshua Ugwu is a product-minded software engineer building useful platforms for the Nigerian market.", icons: brand.faviconUrl ? { icon: brand.faviconUrl } : undefined };
+  const faviconSize = Math.round(128 * ((brand.faviconScale ?? 100) / 100));
+  const faviconUrl = brand.faviconUrl ? brand.faviconUrl.replace("/upload/", `/upload/c_fill,w_${faviconSize},h_${faviconSize},g_auto/c_pad,w_128,h_128,b_transparent,r_${brand.faviconRadius ?? 16}/`) : undefined;
+  return { title: "buildwithzaza | Joshua Ugwu — Product engineer, Enugu NG", description: "Joshua Ugwu is a product-minded software engineer building useful platforms for the Nigerian market.", icons: faviconUrl ? { icon: faviconUrl } : undefined };
 }
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

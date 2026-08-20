@@ -6,6 +6,8 @@ export interface BrandAssets {
   resumeUrl?: string;
   logoScale?: number;
   logoRadius?: number;
+  faviconScale?: number;
+  faviconRadius?: number;
   bio?: string;
   currentlyBuilding?: string;
   buildLog?: { cmd: string; status: "live" | "shipping"; detail: string }[];
@@ -16,7 +18,7 @@ export async function getBrandAssets(): Promise<BrandAssets> {
     const snapshot = await adminDb.collection("profile").doc("main").get();
     if (!snapshot.exists) return {};
     const data = snapshot.data();
-    return { logoUrl: data?.logoUrl, faviconUrl: data?.faviconUrl, resumeUrl: data?.resumeUrl, logoScale: data?.logoScale, logoRadius: data?.logoRadius, bio: data?.bio, currentlyBuilding: data?.currentlyBuilding, buildLog: data?.buildLog };
+    return { logoUrl: data?.logoUrl, faviconUrl: data?.faviconUrl, resumeUrl: data?.resumeUrl, logoScale: data?.logoScale, logoRadius: data?.logoRadius, faviconScale: data?.faviconScale, faviconRadius: data?.faviconRadius, bio: data?.bio, currentlyBuilding: data?.currentlyBuilding, buildLog: data?.buildLog };
   } catch {
     return {};
   }
