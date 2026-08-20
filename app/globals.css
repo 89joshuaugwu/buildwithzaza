@@ -77,4 +77,12 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 .focus-ring:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 3px; }
 .card-shadow { box-shadow: var(--shadow-card); }
 
+/* The hero has three equally important actions. Keep them on one purposeful
+   row on narrow phones instead of dropping the resume action below. */
+@media (max-width: 639px) {
+  .page-glow .flex.flex-wrap.gap-3 { flex-wrap: nowrap; gap: .5rem; }
+  .page-glow .flex.flex-wrap.gap-3 > .button-primary,
+  .page-glow .flex.flex-wrap.gap-3 > .button-secondary { min-width: 0; padding-left: .7rem; padding-right: .7rem; font-size: .78rem; white-space: nowrap; }
+}
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
