@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
     // Guard against a tampered amount — what was actually paid (in kobo)
     // must match the product's real price, not whatever the client sent.
-    if (!product || amount !== Math.round(product.price * 100)) {
+    if (!product || product.pricing === "free" || amount !== Math.round(product.price * 100)) {
       return NextResponse.json({ error: "Amount mismatch" }, { status: 402 });
     }
 
@@ -62,6 +62,7 @@ export async function POST(req: NextRequest) {
     // for now; worth a uniqueness check if this sees real volume.
     await adminDb.collection("orders").add({
       productId,
+      productTitle: product.title ?? null,
       buyerEmail: customer?.email ?? null,
       amount: amount / 100,
       paystackRef,

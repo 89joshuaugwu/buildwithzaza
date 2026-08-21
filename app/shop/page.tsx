@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Script from "next/script";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
-import { CheckCircle2, Download } from "lucide-react";
+import { CheckCircle2, Download, ExternalLink } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { MediaCarousel } from "@/components/media-carousel";
 
@@ -15,6 +15,9 @@ interface Product {
   price: number;
   previewImages?: string[];
   published?: boolean;
+  pricing?: "paid" | "free";
+  externalUrl?: string;
+  fileUrl?: string;
   restricted?: boolean;
 }
 
@@ -45,6 +48,7 @@ export default function ShopPage() {
   }, []);
 
   function startCheckout(product: Product) {
+    if (product.pricing === "free") { window.open(product.externalUrl || product.fileUrl, "_blank", "noopener,noreferrer"); return; }
     setActiveProduct(product);
     setDownloadUrl(null);
     setBuyerEmail("");
@@ -145,14 +149,14 @@ export default function ShopPage() {
               </p>
               <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
                 <span className="font-mono text-lg font-bold text-fg">
-                  ₦{product.price.toLocaleString()}
+                  {product.pricing === "free" ? "Free" : `₦${product.price.toLocaleString()}`}
                 </span>
                 <button
                   type="button"
                   onClick={() => startCheckout(product)}
                   className="button-primary min-h-10 w-full px-4 sm:w-auto"
                 >
-                  Buy now
+                  {product.pricing === "free" ? <>{product.externalUrl ? "Open resource" : "Get free"} <ExternalLink size={15} /></> : "Buy now"}
                 </button>
               </div></div>
             </div>
